@@ -1,4 +1,6 @@
-source $HOME/supercloud_util/sync_tools.bash
+source $HOME/supercloud_util/conda_env_tools.bash
+#install the above
+
 setup_worker_mamba open_flamingo
 
 if [ ! $? -eq 0 ]; then
@@ -32,6 +34,8 @@ python -u -m torch.distributed.run \
     --workers=10 \
     --deepspeed \
     --deepspeed_stage 2 \
+    --wandb_project "open-flamingo-exp" \
+    --report_to_wandb \
     --run_name "/home/gridsan/omoll/mpt-7b-deepspeed-job-${SLURM_JOB_ID}" \
     --num_epochs 10 \
     --warmup_steps 2 \
